@@ -173,15 +173,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <EditText
-            android:id="@+id/editTextNumber"
+        <TextView
+            android:id="@+id/matchToDelete"
             android:layout_width="175dp"
             android:layout_height="27dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginBottom="172dp"
             android:background="@color/black_overlay"
-            android:ems="10"
-            android:inputType="number"
             android:textColor="@color/black"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="parent"

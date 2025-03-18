@@ -67,24 +67,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Match match = null;
         SQLiteDatabase db = this.getReadableDatabase(); // Открываем базу данных для чтения
 
-        String query = "SELECT * FROM Matches WHERE id = ?";
+        String query = "SELECT * FROM matches WHERE id = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(matchId)}); // Получаем данные по ID
 
         if (cursor != null && cursor.moveToFirst()) {
             match = new Match();
             match.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-            match.setMatchName(cursor.getString(cursor.getColumnIndexOrThrow("matchName")));
+            match.setMatchName(cursor.getString(cursor.getColumnIndexOrThrow("match_name")));
             match.setTeam1_name(cursor.getString(cursor.getColumnIndexOrThrow("team1_name")));
-            match.setTeam1_goal(cursor.getString(cursor.getColumnIndexOrThrow("team1_goal")));
+            match.setTeam1_goal(cursor.getString(cursor.getColumnIndexOrThrow("team1_goals")));
             match.setTeam1_info(cursor.getString(cursor.getColumnIndexOrThrow("team1_info")));
             match.setTeam2_name(cursor.getString(cursor.getColumnIndexOrThrow("team2_name")));
-            match.setTeam2_goal(cursor.getString(cursor.getColumnIndexOrThrow("team2_goal")));
+            match.setTeam2_goal(cursor.getString(cursor.getColumnIndexOrThrow("team2_goals")));
             match.setTeam2_info(cursor.getString(cursor.getColumnIndexOrThrow("team2_info")));
             cursor.close(); // Закрываем курсор
         }
 
         db.close(); // Закрываем базу данных
         return match;
+    }
+
+    public List<Match> getAllMatches() {
+        List<Match> matchList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM matches", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Match match = new Match();
+                match.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
+                match.setMatchName(cursor.getString(cursor.getColumnIndexOrThrow("match_name")));
+                match.setTeam1_info(cursor.getString(cursor.getColumnIndexOrThrow("team1_info")));
+                match.setTeam1_goal(cursor.getString(cursor.getColumnIndexOrThrow("team1_goals")));
+                match.setTeam1_info(cursor.getString(cursor.getColumnIndexOrThrow("team1_info")));
+                match.setTeam2_name(cursor.getString(cursor.getColumnIndexOrThrow("team2_name")));
+                match.setTeam2_goal(cursor.getString(cursor.getColumnIndexOrThrow("team2_goals")));
+                match.setTeam2_info(cursor.getString(cursor.getColumnIndexOrThrow("team2_info")));
+
+                matchList.add(match);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return matchList;
+
     }
 
 
